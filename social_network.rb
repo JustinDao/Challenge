@@ -68,7 +68,7 @@ def is_friend(word1, word2)
   # Get the difference in length of the words
   difference = (word1.length - word2.length).abs
   
-  #If the difference is greater than 1, than the words can't be friends. 
+  #If the difference is greater than 1, then the words can't be friends. 
   if difference > 1
     return false
 
