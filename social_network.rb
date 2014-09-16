@@ -108,7 +108,7 @@ def is_friend(word1, word2)
           end
 
         # If the mismatched words are not the same length, then the remainder of the longer word  
-        # must match the remainder of the shorter word, starting from the index where the mismatch occured.
+        # must match the remainder of the shorter word including the letter where the mismatch occured.
         else
           longer_word_remainder = longer_word[i+1...longer_word.length]
           # Note that the beginning index for the shorter word is `i` instead of `i+1`.
