@@ -93,7 +93,7 @@ def is_friend(word1, word2)
       if word1[i] == word2[i]
         next
 
-      # If they aren't the same, then we are at least one letter off. 
+      # If they aren't the same, then they are at least one letter off. 
       # Now check to see if they are more than one letter off. 
       else
         # If the mismatched words are the same length, the remainder of each word must match for them to be friends. 
