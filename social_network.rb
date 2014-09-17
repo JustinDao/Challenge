@@ -3,7 +3,9 @@
 require 'set'
 
 # This method will print the social network for a given word.
-# The running time for this method is Theta(n + fn + gn) = O(n)
+# The running time for this method is Theta(n + fn + gn)
+# which is O(n^2), since the worst case is the word is friends with
+# every other word in the list
 # where n is the number of words in the list, f is the number of 
 # friends for the input word, and g is the number of 
 # friends of friends. 
@@ -11,8 +13,10 @@ def find_social_network(word)
 
   # Sets to hold all the unique friends, friends of friends, etc.
   friends = Set.new
-  friends_friends = Set.new
-  friends_friends_friends = Set.new
+  friends_friends_set = Set.new
+
+  friends_friends = {}
+  friends_friends_friends = {}
 
   # Array to hold all of the words so we don't need to read from the file multiple times
   word_list = []
@@ -32,20 +36,29 @@ def find_social_network(word)
   end
 
   # Loops through the list again, and for each friend, find all of its friends, and store these words in a set.
-  word_list.each do |compare|
-    friends.each do |w|
+  friends.to_a.sort.each do |w|
+    s = Set.new
+    word_list.each do |compare|
+      
       if is_friend(w, compare)
-        friends_friends.add(compare)
+        s.add(compare)
+        friends_friends_set.add(compare)
       end
+
+      friends_friends[w] = s
     end
   end
 
   # Loops through the list a final time for the friends of friends to find the friends of friends of friends. 
-  word_list.each do |compare|
-    friends_friends.each do |w|
+  friends_friends_set.to_a.sort.each do |w|
+    s = Set.new
+    word_list.each do |compare|
+      
       if is_friend(w, compare)
-        friends_friends_friends.add(compare)
-      end    
+        s.add(compare)
+      end  
+
+      friends_friends_friends[w] = s  
     end
   end
 
@@ -53,11 +66,20 @@ def find_social_network(word)
   puts "Friends:"
   puts friends.to_a.sort
   puts
+  puts
   puts "Friends of Friends:"
-  puts friends_friends.to_a.sort
+  friends_friends.each do |k,v|
+    puts "#{k}:"
+    puts friends_friends[k].to_a.sort
+    puts
+  end
   puts
   puts "Friends of Friends of Friends:"
-  puts friends_friends_friends.to_a.sort
+  friends_friends_friends.each do |k,v|
+    puts "#{k}:"
+    puts friends_friends_friends[k].to_a.sort
+    puts
+  end
 end
 
 
